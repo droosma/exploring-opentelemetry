@@ -1,0 +1,29 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+
+exporters:
+  otlp/uptrace:
+    endpoint: uptrace:14317
+    tls:
+      insecure: true
+    headers: { 'uptrace-dsn': 'http://project1_secret_token@localhost:14317/1' }
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/uptrace]
